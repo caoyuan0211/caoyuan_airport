@@ -1,11 +1,266 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=https://cytoplastic-shenna-preextensively.ngrok-free.dev">
-<title>跳转中…</title>
+<title>草原国际机场官网</title>
+<style>
+#map {
+  position:relative;
+  height:380px;
+  background: linear-gradient(180deg,#eef3f8,#e3eaf2);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.airport-map {
+  position:absolute;
+  width:100%;
+  height:100%;
+  opacity:0.95;
+}
+
+/* 商店标记 */
+.map-point {
+  position:absolute;
+  background:#0b3d91;
+  color:white;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:13px;
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.map-point:hover {
+  transform: scale(1.15);
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+body {margin:0; font-family:"Microsoft YaHei",Arial,sans-serif; background:#f0f2f5;}
+header {background:#0b3d91; color:white; padding:20px; text-align:center; position:sticky; top:0; z-index:100;}
+nav {background:#0e56c2; padding:10px; text-align:center;}
+nav a {color:white; margin:0 15px; text-decoration:none; font-weight:bold;}
+section {padding:30px; background:white; margin:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+h2 {margin-top:0;}
+.hero, .module-img {width:100%; height:280px; object-fit:cover; border-radius:12px; margin-top:15px;}
+.grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px;}
+.card {border:1px solid #ddd; border-radius:10px; padding:15px; background:#fafafa; transition: transform 0.3s;}
+.card:hover {transform:scale(1.05);}
+button {background:#0b3d91; color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer;}
+button:hover {opacity:0.85;}
+input {padding:8px; width:100%; margin:6px 0; border-radius:6px; border:1px solid #ccc;}
+#map, #radar {position:relative; height:320px; background:#e9eef3; border-radius:12px; margin-top:15px;}
+.shop {position:absolute; background:#ff9800; color:white; padding:6px 8px; border-radius:6px; font-size:12px;}
+.plane {position:absolute; font-size:18px; transition: all 0.2s;}
+footer {text-align:center; padding:20px; color:#666; margin-top:40px;}
+#radar {
+  position:relative;
+  height:320px;
+  background: linear-gradient(180deg,#eef3f8,#e3eaf2);
+  border-radius:12px;
+  margin-top:15px;
+  overflow:hidden;
+}
+
+.radar-map {
+  position:absolute;
+  width:100%;
+  height:100%;
+  opacity:0.95;
+}
+</style>
 </head>
+
 <body>
-正在进入草原国际机场官网…
+
+<header>
+  <h1>草原国际机场</h1>
+  <p>中国 · 苏州</p >
+</header>
+
+<nav>
+  <a href=" ">机场介绍</a >
+  <a href="#wifi">免费WiFi</a >
+  <a href="#mapsec">机场地图</a >
+  <a href="#radar">航班雷达</a >
+  <a href="#vip">VIP候机厅</a >
+</nav>
+
+<section id="intro">
+  <h2>机场介绍</h2>
+  <p>
+    草原国际机场位于苏州，拥有现代化航站楼、丰富的商业设施及舒适候机环境。
+  </p >
+  <div class="grid">
+    <div class="card">✈️ 双跑道运行</div>
+    <div class="card">🧭 智能指引系统</div>
+    <div class="card">🛍️ 商业街区</div>
+    <div class="card">🚆 城市快线直达</div>
+  </div>
+</section>
+
+<section id="wifi">
+  <h2>免费 WiFi 注册</h2>
+  <p>填写信息后会显示“已连接”，不会上传或保存数据。</p >
+  <input id="name" placeholder="姓名">
+  <input id="phone" placeholder="手机号">
+  <button onclick="wifiLogin()">连接免费WiFi</button>
+  <p id="wifiResult"></p >
+</section>
+
+<section id="mapsec">
+  <h2>机场地图（虚构示意）</h2>
+  <p>黄色标记为商店或咖啡厅位置。</p >
+  <div id="map">
+
+  <svg class="airport-map" viewBox="0 0 700 380">
+
+    <!-- 外框 -->
+    <rect x="10" y="10" width="680" height="360" rx="20"
+          fill="none" stroke="#b7c4d3" stroke-width="3"/>
+
+    <!-- 主跑道 -->
+    <rect x="60" y="150" width="580" height="34" rx="6"
+          fill="none" stroke="#9aa7b5" stroke-width="3"/>
+
+    <!-- 航站楼 -->
+    <rect x="240" y="230" width="220" height="90" rx="16"
+          fill="none" stroke="#8fa3b8" stroke-width="3"/>
+
+    <!-- 候机廊桥 -->
+    <line x1="270" y1="230" x2="270" y2="200" stroke="#c3ceda" stroke-width="2"/>
+    <line x1="320" y1="230" x2="320" y2="200" stroke="#c3ceda" stroke-width="2"/>
+    <line x1="370" y1="230" x2="370" y2="200" stroke="#c3ceda" stroke-width="2"/>
+    <line x1="420" y1="230" x2="420" y2="200" stroke="#c3ceda" stroke-width="2"/>
+
+    <!-- 滑行道 -->
+    <line x1="140" y1="167" x2="240" y2="260"
+          stroke="#c3ceda" stroke-width="2"/>
+    <line x1="560" y1="167" x2="460" y2="260"
+          stroke="#c3ceda" stroke-width="2"/>
+
+  </svg>
+
+  <!-- 商店标记 -->
+  <div class="map-point" style="left:300px; top:255px;">☕ 咖啡</div>
+  <div class="map-point" style="left:360px; top:260px;">📚 书店</div>
+  <div class="map-point" style="left:420px; top:255px;">🛍 商店</div>
+  <div class="map-point" style="left:250px; top:290px;">🍜 餐厅</div>
+
+</div>
+</section>
+
+<section id="radar">
+  <h2>航班雷达</h2>
+  <p>模拟实时航班移动效果。</p >
+  <div id="radar">
+
+  <svg class="radar-map" viewBox="0 0 600 320">
+
+    <!-- 主跑道 -->
+    <rect x="30" y="140" width="540" height="36" rx="6"
+          fill="none" stroke="#9aa7b5" stroke-width="3"/>
+
+    <!-- 副跑道 -->
+    <rect x="260" y="30" width="80" height="260" rx="6"
+          fill="none" stroke="#b0bcc9" stroke-width="2"/>
+
+    <!-- 航站楼 -->
+    <rect x="210" y="210" width="180" height="80" rx="14"
+          fill="none" stroke="#8fa3b8" stroke-width="3"/>
+
+    <!-- 滑行道 -->
+    <line x1="120" y1="158" x2="210" y2="250"
+          stroke="#c3ceda" stroke-width="2"/>
+    <line x1="480" y1="158" x2="390" y2="250"
+          stroke="#c3ceda" stroke-width="2"/>
+
+    <!-- 登机口 -->
+    <line x1="240" y1="210" x2="240" y2="185" stroke="#c3ceda" stroke-width="2"/>
+    <line x1="300" y1="210" x2="300" y2="185" stroke="#c3ceda" stroke-width="2"/>
+    <line x1="360" y1="210" x2="360" y2="185" stroke="#c3ceda" stroke-width="2"/>
+
+  </svg>
+
+  <div id="plane1" class="plane">✈️</div>
+  <div id="plane2" class="plane">✈️</div>
+  <div id="plane3" class="plane">✈️</div>
+  <div id="plane4" class="plane">✈️</div>
+  <div id="plane5" class="plane">✈️</div>
+  <div id="plane6" class="plane">✈️</div>
+  <div id="plane7" class="plane">✈️</div>
+  <div id="plane8" class="plane">✈️</div>
+
+  </div>
+</section>
+
+<section id="vip">
+  <h2>VIP 候机厅升级</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>银卡候机厅</h3>
+      <p>饮料 + 快速安检通道</p >
+      <button onclick="upgrade('银卡')">78￥升级</button>
+    </div>
+    <div class="card">
+      <h3>金卡候机厅</h3>
+      <p>餐食 + 独立休息区</p >
+      <button onclick="upgrade('金卡')">91￥升级</button>
+    </div>
+    <div class="card">
+      <h3>头等舱候机厅</h3>
+      <p>包间 + 专车摆渡</p >
+      <button onclick="upgrade('头等舱')">169￥升级</button>
+    </div>
+  </div>
+  <p id="vipResult"></p >
+</section>
+
+<footer>
+    草原™
+</footer>
+
+<script>
+function wifiLogin() {
+  const n = document.getElementById("name").value;
+  const p = document.getElementById("phone").value;
+  if(!n || !p){
+    wifiResult.innerText="请填写完整信息";
+    return;
+  }
+  wifiResult.innerText="✅ 已连接草原机场免费WiFi";
+}
+
+function upgrade(level){
+  vipResult.innerText="🎉 已升级到 "+level+" VIP 候机厅";
+}
+
+/* ===== 8 架飞机雷达动画 ===== */
+
+let planes = [];
+
+for(let i=1;i<=8;i++){
+  planes.push({
+    el: document.getElementById("plane"+i),
+    x: Math.random()*500,
+    y: Math.random()*300,
+    dx: (Math.random()*4-2),
+    dy: (Math.random()*4-2)
+  });
+}
+
+setInterval(()=>{
+  planes.forEach(p=>{
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if(p.x>560 || p.x<0) p.dx *= -1;
+    if(p.y>300 || p.y<0) p.dy *= -1;
+
+    p.el.style.left = p.x+"px";
+    p.el.style.top  = p.y+"px";
+  });
+},120);
+</script>
+
 </body>
 </html>
